@@ -1,9 +1,8 @@
-% ============================================================
-% Part 1 - Prolog: query runner
+% Part 1 - Prolog: query runner.
 %
-% Loads the facts and rules, asks a handful of yes/no questions,
-% then lists every solution of every relation so you can see what
-% backward chaining derived from the tree.
+% Loads the facts and rules, asks a handful of yes/no questions, then
+% lists every solution of every relation so you can see what backward
+% chaining derived from the tree.
 %
 %   swipl -q -s part1-prolog/queries.pl
 %
@@ -11,9 +10,9 @@
 %
 %   swipl part1-prolog/rules.pl
 %   ?- ancestor(john, tom).
-% ============================================================
 
 :- ensure_loaded(rules).
+
 
 % The relations reported at the bottom of the run, in family order.
 reported_relation(parent).
@@ -32,16 +31,18 @@ reported_relation(aunt).
 reported_relation(cousin).
 reported_relation(second_cousin).
 
+
 % ask(+Goal)
 % Run one goal and report true/false, the way a ?- query would.
 ask(Goal) :-
     ( call(Goal) -> Answer = true ; Answer = false ),
     format("  ?- ~w.~t~32| ~w~n", [Goal, Answer]).
 
+
 % show(+Name)
 % List every distinct pair satisfying the binary relation Name.
-% setof/3 both sorts and removes the duplicate solutions you get
-% when a relation can be proved along more than one path.
+% setof/3 both sorts and removes the duplicate solutions you get when
+% a relation can be proved along more than one path.
 show(Name) :-
     Goal =.. [Name, X, Y],
     format("~n~w:~n", [Name]),
@@ -51,8 +52,9 @@ show(Name) :-
     ;   format("  (none)~n")
     ).
 
+
 main :-
-    format("=== Part 1: Prolog (backward chaining) ===~n~n"),
+    format("Part 1: Prolog, backward chaining~n~n"),
     format("Direct questions:~n"),
     ask(ancestor(john, tom)),
     ask(mother(mary, susan)),
