@@ -8,8 +8,24 @@
 ;;;
 ;;; Derived facts are plain ordered facts written as
 ;;;   (relation <person> <who-they-relate-to>)
-;;; so (mother mary susan) reads "mary is the mother of susan",
-;;; matching the argument order used in the Prolog rules.
+;;; so (mother mary susan) reads "mary is the mother of susan". The
+;;; relation names and the argument order are kept identical to the
+;;; Prolog predicates in Part 1 so the two halves can be diffed.
+;;;
+;;; Two deliberate changes from the sample code in the lab handout:
+;;;
+;;;   1. The sample find-ancestor asserts new `person` facts, which
+;;;      overwrites the family tree with wrong parents and then feeds
+;;;      those back into every other rule. Ancestry is derived into
+;;;      its own `ancestor` relation here instead, leaving the person
+;;;      facts as the record of what was actually given.
+;;;
+;;;   2. The sample find-mother and find-father have the arguments
+;;;      backwards: matching (name ?x) (parent ?y) (gender female) and
+;;;      asserting (mother ?x ?y) says the child is the mother of the
+;;;      parent, and it tests the child's gender rather than the
+;;;      parent's. The rules below check the parent's gender and
+;;;      assert parent first.
 
 
 ;;; Parent and ancestry.
@@ -138,4 +154,4 @@
    (parent ?p2 ?y)
    (cousin ?p1 ?p2)
    =>
-   (assert (second-cousin ?x ?y)))
+   (assert (second_cousin ?x ?y)))
