@@ -1,0 +1,322 @@
+Lab 6 - saved program output
+Adrian Cardona
+
+Captured so the results can be read without installing either tool.
+Reproduce with the two commands in README.MD.
+
+  SWI-Prolog 10.0.2
+  CLIPS 6.4.2
+
+------------------------------------------------------------
+
+Part 1: Prolog, backward chaining
+
+The lab's two example queries:
+  ?- ancestor(john,tom).          true    john -> mary -> susan -> tom
+  ?- mother(mary,susan).          true    mary is susan's parent and female
+
+The three Task 3 queries:
+  ?- brother(tom,alice).          false   alice is tom's daughter, not his sister
+  ?- cousin(susan,alice).         false   susan is alice's grandmother
+  ?- grandchild(tom,john).        false   john is tom's great-grandfather
+
+The same three relations where they do hold:
+  ?- brother(brian,alice).        true    both are tom's children and brian is male
+  ?- cousin(tom,emma).            true    their parents susan and david are siblings
+  ?- grandchild(tom,mary).        true    mary -> susan -> tom
+
+The rules added in Task 2:
+  ?- grandmother(mary,tom).       true    mary is tom's grandparent and female
+  ?- grandfather(john,susan).     true    john is susan's grandparent and male
+  ?- uncle(david,tom).            true    david is the brother of tom's mother susan
+  ?- aunt(susan,emma).            true    susan is the sister of emma's father david
+  ?- second_cousin(tom,jack).     true    their parents susan and laura are cousins
+
+All solutions, relation by relation:
+
+parent:
+  parent(david, emma)
+  parent(john, mary)
+  parent(john, peter)
+  parent(laura, jack)
+  parent(mary, david)
+  parent(mary, susan)
+  parent(peter, laura)
+  parent(susan, tom)
+  parent(tom, alice)
+  parent(tom, brian)
+
+ancestor:
+  ancestor(david, emma)
+  ancestor(john, alice)
+  ancestor(john, brian)
+  ancestor(john, david)
+  ancestor(john, emma)
+  ancestor(john, jack)
+  ancestor(john, laura)
+  ancestor(john, mary)
+  ancestor(john, peter)
+  ancestor(john, susan)
+  ancestor(john, tom)
+  ancestor(laura, jack)
+  ancestor(mary, alice)
+  ancestor(mary, brian)
+  ancestor(mary, david)
+  ancestor(mary, emma)
+  ancestor(mary, susan)
+  ancestor(mary, tom)
+  ancestor(peter, jack)
+  ancestor(peter, laura)
+  ancestor(susan, alice)
+  ancestor(susan, brian)
+  ancestor(susan, tom)
+  ancestor(tom, alice)
+  ancestor(tom, brian)
+
+mother:
+  mother(laura, jack)
+  mother(mary, david)
+  mother(mary, susan)
+  mother(susan, tom)
+
+father:
+  father(david, emma)
+  father(john, mary)
+  father(john, peter)
+  father(peter, laura)
+  father(tom, alice)
+  father(tom, brian)
+
+sibling:
+  sibling(alice, brian)
+  sibling(brian, alice)
+  sibling(david, susan)
+  sibling(mary, peter)
+  sibling(peter, mary)
+  sibling(susan, david)
+
+brother:
+  brother(brian, alice)
+  brother(david, susan)
+  brother(peter, mary)
+
+sister:
+  sister(alice, brian)
+  sister(mary, peter)
+  sister(susan, david)
+
+grandparent:
+  grandparent(john, david)
+  grandparent(john, laura)
+  grandparent(john, susan)
+  grandparent(mary, emma)
+  grandparent(mary, tom)
+  grandparent(peter, jack)
+  grandparent(susan, alice)
+  grandparent(susan, brian)
+
+grandmother:
+  grandmother(mary, emma)
+  grandmother(mary, tom)
+  grandmother(susan, alice)
+  grandmother(susan, brian)
+
+grandfather:
+  grandfather(john, david)
+  grandfather(john, laura)
+  grandfather(john, susan)
+  grandfather(peter, jack)
+
+grandchild:
+  grandchild(alice, susan)
+  grandchild(brian, susan)
+  grandchild(david, john)
+  grandchild(emma, mary)
+  grandchild(jack, peter)
+  grandchild(laura, john)
+  grandchild(susan, john)
+  grandchild(tom, mary)
+
+uncle:
+  uncle(david, tom)
+  uncle(peter, david)
+  uncle(peter, susan)
+
+aunt:
+  aunt(mary, laura)
+  aunt(susan, emma)
+
+cousin:
+  cousin(david, laura)
+  cousin(emma, tom)
+  cousin(laura, david)
+  cousin(laura, susan)
+  cousin(susan, laura)
+  cousin(tom, emma)
+
+second_cousin:
+  second_cousin(emma, jack)
+  second_cousin(jack, emma)
+  second_cousin(jack, tom)
+  second_cousin(tom, jack)
+
+
+------------------------------------------------------------
+  tom is an ancestor of brian
+  tom is an ancestor of alice
+  laura is an ancestor of jack
+  david is an ancestor of emma
+  susan is an ancestor of alice
+  susan is an ancestor of brian
+  susan is an ancestor of tom
+  peter is an ancestor of jack
+  peter is an ancestor of laura
+  mary is an ancestor of emma
+  mary is an ancestor of david
+  mary is an ancestor of brian
+  mary is an ancestor of alice
+  mary is an ancestor of tom
+  mary is an ancestor of susan
+  john is an ancestor of jack
+  john is an ancestor of laura
+  john is an ancestor of peter
+  john is an ancestor of alice
+  john is an ancestor of brian
+  john is an ancestor of tom
+  john is an ancestor of susan
+  john is an ancestor of emma
+  john is an ancestor of david
+  john is an ancestor of mary
+
+Part 2: CLIPS, forward chaining
+
+The three Task 3 queries:
+
+mother:
+  (mother laura jack)
+  (mother susan tom)
+  (mother mary david)
+  (mother mary susan)
+
+brother:
+  (brother brian alice)
+  (brother david susan)
+  (brother peter mary)
+
+cousin:
+  (cousin tom emma)
+  (cousin emma tom)
+  (cousin david laura)
+  (cousin susan laura)
+  (cousin laura david)
+  (cousin laura susan)
+
+Everything else the rules derived:
+
+parent:
+  (parent tom brian)
+  (parent tom alice)
+  (parent laura jack)
+  (parent david emma)
+  (parent susan tom)
+  (parent peter laura)
+  (parent mary david)
+  (parent mary susan)
+  (parent john peter)
+  (parent john mary)
+
+ancestor:
+  (ancestor tom brian)
+  (ancestor tom alice)
+  (ancestor laura jack)
+  (ancestor david emma)
+  (ancestor susan tom)
+  (ancestor susan alice)
+  (ancestor susan brian)
+  (ancestor peter laura)
+  (ancestor peter jack)
+  (ancestor mary david)
+  (ancestor mary emma)
+  (ancestor mary susan)
+  (ancestor mary brian)
+  (ancestor mary alice)
+  (ancestor mary tom)
+  (ancestor john peter)
+  (ancestor john jack)
+  (ancestor john laura)
+  (ancestor john mary)
+  (ancestor john tom)
+  (ancestor john alice)
+  (ancestor john brian)
+  (ancestor john susan)
+  (ancestor john emma)
+  (ancestor john david)
+
+father:
+  (father tom brian)
+  (father tom alice)
+  (father david emma)
+  (father peter laura)
+  (father john peter)
+  (father john mary)
+
+sibling:
+  (sibling alice brian)
+  (sibling brian alice)
+  (sibling susan david)
+  (sibling david susan)
+  (sibling mary peter)
+  (sibling peter mary)
+
+sister:
+  (sister alice brian)
+  (sister susan david)
+  (sister mary peter)
+
+grandparent:
+  (grandparent susan alice)
+  (grandparent susan brian)
+  (grandparent peter jack)
+  (grandparent mary emma)
+  (grandparent mary tom)
+  (grandparent john laura)
+  (grandparent john susan)
+  (grandparent john david)
+
+grandmother:
+  (grandmother susan alice)
+  (grandmother susan brian)
+  (grandmother mary emma)
+  (grandmother mary tom)
+
+grandfather:
+  (grandfather peter jack)
+  (grandfather john laura)
+  (grandfather john susan)
+  (grandfather john david)
+
+grandchild:
+  (grandchild alice susan)
+  (grandchild brian susan)
+  (grandchild jack peter)
+  (grandchild emma mary)
+  (grandchild tom mary)
+  (grandchild laura john)
+  (grandchild susan john)
+  (grandchild david john)
+
+uncle:
+  (uncle david tom)
+  (uncle peter susan)
+  (uncle peter david)
+
+aunt:
+  (aunt susan emma)
+  (aunt mary laura)
+
+second_cousin:
+  (second_cousin emma jack)
+  (second_cousin tom jack)
+  (second_cousin jack emma)
+  (second_cousin jack tom)
+
