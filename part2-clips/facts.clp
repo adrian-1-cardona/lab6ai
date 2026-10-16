@@ -1,10 +1,9 @@
-;;; ============================================================
-;;; Part 2 - CLIPS: the person template and the starting facts
+;;; Part 2 - CLIPS: the person template and the starting facts.
 ;;;
-;;; Same family tree as Part 1, so the two halves of the lab can
-;;; be compared side by side. Everything in here is given; nothing
-;;; is derived. rules.clp takes these facts and forward chains the
-;;; rest of the relationships out of them.
+;;; Same family tree as Part 1, so the two halves of the lab can be
+;;; compared side by side. Everything in here is given; nothing is
+;;; derived. rules.clp takes these facts and forward chains the rest
+;;; of the relationships out of them.
 ;;;
 ;;; Tree layout, oldest generation on the left:
 ;;;
@@ -12,10 +11,9 @@
 ;;;          |          |                  +-- brian
 ;;;          |          +-- david -- emma
 ;;;          +-- peter -- laura -- jack
-;;; ============================================================
 
-;;; One fact per person. `parent` is `none` for the root of the
-;;; tree, which the rules use to know where to stop.
+;;; One fact per person. `parent` is `none` for the root of the tree,
+;;; which the rules use to know where to stop.
 (deftemplate person
    (slot name)
    (slot parent (default none))

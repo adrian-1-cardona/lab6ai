@@ -1,19 +1,18 @@
-;;; ============================================================
-;;; Part 2 - CLIPS: forward chaining rules
+;;; Part 2 - CLIPS: forward chaining rules.
 ;;;
-;;; The mirror image of Part 1. Nothing is asked for here. Every
-;;; rule whose left-hand side matches the current facts fires and
-;;; asserts something new, and those new facts can match other
-;;; rules, which fire in turn. (run) keeps going until no rule has
-;;; anything left to add.
+;;; The mirror image of Part 1. Nothing is asked for here. Every rule
+;;; whose left-hand side matches the current facts fires and asserts
+;;; something new, and those new facts can match other rules, which
+;;; fire in turn. (run) keeps going until no rule has anything left
+;;; to add.
 ;;;
 ;;; Derived facts are plain ordered facts written as
 ;;;   (relation <person> <who-they-relate-to>)
 ;;; so (mother mary susan) reads "mary is the mother of susan",
 ;;; matching the argument order used in the Prolog rules.
-;;; ============================================================
 
-;;; --- parent and ancestry ------------------------------------
+
+;;; Parent and ancestry.
 
 ;;; Lift the parent slot out into its own fact so the rest of the
 ;;; rules can chain on it without re-matching the person template.
@@ -28,15 +27,24 @@
    (assert (ancestor ?p ?c)))
 
 ;;; Transitive closure: an ancestor of an ancestor is an ancestor.
-;;; CLIPS will not assert a fact that already exists, so this runs
-;;; out of new work instead of looping forever.
+;;; CLIPS will not assert a fact that already exists, so this runs out
+;;; of new work instead of looping forever.
 (defrule ancestor-transitive
    (ancestor ?a ?x)
    (ancestor ?x ?d)
    =>
    (assert (ancestor ?a ?d)))
 
-;;; --- immediate family ---------------------------------------
+;;; Forward chaining is visible here: this fires the moment an
+;;; ancestor fact shows up, including the ones the rule above derives
+;;; several steps later.
+(defrule print-ancestor
+   (ancestor ?a ?d)
+   =>
+   (printout t "  " ?a " is an ancestor of " ?d crlf))
+
+
+;;; Immediate family.
 
 (defrule mother-of
    (parent ?p ?c)
@@ -71,7 +79,8 @@
    =>
    (assert (sister ?x ?y)))
 
-;;; --- grandparents -------------------------------------------
+
+;;; Grandparents.
 
 (defrule grandparent-of
    (parent ?g ?p)
@@ -97,8 +106,8 @@
    =>
    (assert (grandchild ?c ?g)))
 
-;;; --- aunts and uncles ---------------------------------------
-;;; A sibling of one of your parents.
+
+;;; Aunts and uncles: a sibling of one of your parents.
 
 (defrule uncle-of
    (brother ?u ?p)
@@ -112,7 +121,8 @@
    =>
    (assert (aunt ?a ?c)))
 
-;;; --- cousins -------------------------------------------------
+
+;;; Cousins.
 
 ;;; First cousins: their parents are siblings.
 (defrule cousin-of

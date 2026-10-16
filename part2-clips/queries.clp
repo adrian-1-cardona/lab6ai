@@ -1,5 +1,4 @@
-;;; ============================================================
-;;; Part 2 - CLIPS: reporting what the engine derived
+;;; Part 2 - CLIPS: reporting what the engine derived.
 ;;;
 ;;; Forward chaining has already put every derived fact in working
 ;;; memory by the time these run, so "querying" is just reading it
@@ -7,10 +6,9 @@
 ;;;
 ;;; Loaded and called by run.clp. By hand:
 ;;;   (run-queries)
-;;; ============================================================
 
-;;; Derived relations are ordered facts, so all their arguments sit
-;;; in the implied multifield slot.
+;;; Derived relations are ordered facts, so all their arguments sit in
+;;; the implied multifield slot.
 (deffunction print-relation (?label ?facts)
    (printout t crlf ?label ":" crlf)
    (if (= (length$ ?facts) 0)
@@ -22,7 +20,7 @@
                         (implode$ (fact-slot-value ?f implied)) ")" crlf))))
 
 (deffunction run-queries ()
-   (printout t "=== Part 2: CLIPS (forward chaining) ===" crlf)
+   (printout t crlf "Part 2: CLIPS, forward chaining" crlf)
    (print-relation "parent"        (find-all-facts ((?f parent)) TRUE))
    (print-relation "ancestor"      (find-all-facts ((?f ancestor)) TRUE))
    (print-relation "mother"        (find-all-facts ((?f mother)) TRUE))
