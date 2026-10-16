@@ -5,7 +5,7 @@
 ;;; back out with find-all-facts.
 ;;;
 ;;; Loaded and called by run.clp. To type the Task 3 queries yourself,
-;;; start clips from inside this folder and run:
+;;; start clips from inside this folder and enter:
 ;;;
 ;;;   (load* "facts.clp")
 ;;;   (load* "rules.clp")

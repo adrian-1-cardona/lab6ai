@@ -1,7 +1,10 @@
 ;;; Part 2 - CLIPS: batch driver.
 ;;;
 ;;; Run from inside this folder so the relative loads resolve:
-;;;   clips -f run.clp
+;;;   clips -f2 run.clp
+;;;
+;;; -f2 runs the batch quietly. Use -f instead to see each command
+;;; below echoed as it executes.
 
 (clear)
 (load* "facts.clp")
